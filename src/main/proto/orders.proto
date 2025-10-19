@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.automarket.grpc";
+option java_outer_classname = "OrdersProto";
+
+// Рекомендовано, щоб назва пакету тут збігалася з java_package
+package com.automarket.grpc;
+
+service OrderService {
+  // Цей метод залишаємо без змін, він логічний
+  rpc GetOrders (OrderRequest) returns (OrderResponse);
+
+  // ВИПРАВЛЕНО: Метод тепер повертає правильний тип відповіді - OrderStatusResponse
+  rpc GetOrderStatus (OrderStatusRequest) returns (OrderStatusResponse);
+}
+
+// Повідомлення для запиту списку замовлень користувача
+message OrderRequest {
+  int32 userId = 1;
+}
+
+// Структура одного замовлення
+message Order {
+  int32 id = 1;
+  string productName = 2;
+  int32 quantity = 3;
+}
+
+// Повідомлення для відповіді зі списком замовлень
+message OrderResponse {
+  repeated Order orders = 1;
+}
+
+// Повідомлення для запиту статусу конкретного замовлення
+message OrderStatusRequest {
+  int32 orderId = 1;
+}
+
+// ПОКРАЩЕНО: Відповідь тепер містить більше корисної інформації
+message OrderStatusResponse {
+  int32 orderId = 1;      // ID замовлення, щоб клієнт знав, на який запит прийшла відповідь
+  string productName = 2; // Назва продукту для контексту
+  string status = 3;      // Статус оплати
+}
