@@ -1,25 +1,29 @@
 package com.automarket;
-//клас для описання моделі замовлення
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "orders") // "order" - зарезервоване слово в SQL, тому краще "orders"
 public class Order {
-    private int id;
-    private String productName;
-    private int quantity;
 
-    public Order() {
+    @Id
+    @GeneratedValue // Автоматичний ID
+    public Long id;
+
+    public String car;
+    public String customerName;
+    public String status; // Наприклад: "Pending", "Paid"
+    public int days;
+    public double totalPrice;
+
+    // Порожній конструктор обов'язковий
+    public Order() {}
+
+    public Order(String car, String customerName, int days, double totalPrice) {
+        this.car = car;
+        this.customerName = customerName;
+        this.days = days;
+        this.totalPrice = totalPrice;
+        this.status = "Pending";
     }
-
-    public Order(int id, String productName, int quantity) {
-        this.id = id;
-        this.productName = productName;
-        this.quantity = quantity;
-    }
-
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public String getProductName() { return productName; }
-    public void setProductName(String productName) { this.productName = productName; }
-
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
 }
